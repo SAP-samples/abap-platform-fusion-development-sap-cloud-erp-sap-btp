@@ -1,6 +1,6 @@
 # 🌟 Fusion Development with SAP Cloud ERP and SAP Business Technology Platform
 
-> Fusion Development brings together SAP Cloud ERP with SAP Business Technology Platform (SAP BTP) through SAP Build Tools for seamless innovation across build offerings.*
+> Fusion Development brings together SAP Cloud ERP with SAP Business Technology Platform (SAP BTP) for seamless innovation.
 
 ---
 
