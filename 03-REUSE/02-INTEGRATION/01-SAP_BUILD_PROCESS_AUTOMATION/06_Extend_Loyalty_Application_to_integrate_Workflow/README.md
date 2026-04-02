@@ -1,4 +1,4 @@
-# Extend the RAP Loyalty Application to integrate workflow capability
+# Extend the RAP based Loyalty Application to integrate workflow capability
 
 Enhance the business object behavior to add workflow functionality.
 
