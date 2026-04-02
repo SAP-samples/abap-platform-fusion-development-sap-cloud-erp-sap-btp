@@ -44,7 +44,8 @@
 <img src="../IMAGES/45.salesorder.png" alt="Package" width="50%">
 
 8. The **gift card amount** is now visible in the **Order Data** section.
-9. The **use gift card** is also visible on the top right corner. If this doesnt reflect check if the metadata is updated in the `C_SALESORDERMANAGE_EXT`. Refer to point 9️⃣ Extend the Sales Order projection view to include the gift card fields in [02-Extend Sales Order RAP BO](../02-Extend-Sales-Order-RAP-BO/readme.md).
+9. The **use gift card** is also visible on the top right corner. If this doesnt reflect check if the metadata is updated in the `C_SALESORDERMANAGE_EXT`. Refer to point 9️⃣ Extend the Sales Order projection view to include the gift card fields.
+    
 <img src="../IMAGES/usegiftcard.png" alt="Package" width="50%">
 
 **For more information:**  
