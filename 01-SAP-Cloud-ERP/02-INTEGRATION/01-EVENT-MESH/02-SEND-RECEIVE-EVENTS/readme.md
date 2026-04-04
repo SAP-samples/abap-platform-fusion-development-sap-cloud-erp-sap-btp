@@ -138,25 +138,24 @@ define view entity ZI_Salesorder
 
 
 1. Create the Behavior Definition
-
-- In the **Project Explorer**, right-click on the `ZXE_S4` package.
-- Navigate to: **New > Other > Core Data Services > Behavior Definition (BDEF)**
+    - In the **Project Explorer**, right-click on the `ZXE_S4` package.
+    - Navigate to: **New > Other > Core Data Services > Behavior Definition (BDEF)**
 
 2. Create SAP Object Type `ZSALESORDER`
-- In the **Project Explorer**, right-click on the `ZXE_S4` package.
-- Navigate to: **New > Other > Core Data Services >  SAP Object Type**
+    - In the **Project Explorer**, right-click on the `ZXE_S4` package.
+    - Navigate to: **New > Other > Core Data Services >  SAP Object Type**
 
  ![object type](./IMAGES/10.1%20Data%20defintion.png)
 
 3. Create SAP Object Node Type `zsalesorder`
-- In the **Project Explorer**, right-click on the `ZXE_S4` package.
-- Navigate to: **New > Other > Core Data Services > SAP Object Node Type**
+    - In the **Project Explorer**, right-click on the `ZXE_S4` package.
+    - Navigate to: **New > Other > Core Data Services > SAP Object Node Type**
 
-- ![object Node type](./IMAGES/34.sapobjecttype.png)
+ ![object Node type](./IMAGES/34.sapobjecttype.png)
 
 4. Choose a Name and Object Type
-- Enter the **name** - `ZR_SALESORDERTP`
-- Select the appropriate **business object** to extend - `ZI_SALESORDER`
+    - Enter the **name** - `ZR_SALESORDERTP`
+    - Select the appropriate **business object** to extend - `ZI_SALESORDER`
 
 ![behdef](./IMAGES/35.sapobjectnodetype.png)
 
@@ -239,7 +238,7 @@ An event binding is needed to map an event type to a RAP entity event.
 
 ![newcommunication](./IMAGES/14.new_comm_arrangement.png)
 
-5️- Adapt the **Arrangement Name** - `ZSAP_SO_LYLMGT`.  
+5️. Adapt the **Arrangement Name** - `ZSAP_SO_LYLMGT`.  
 
 > ⚠️ If channel name is not specified under Additional Properties, it defaults to the **Arrangement Name**.
 
@@ -352,7 +351,6 @@ Even after creation, you can still:
 ![outboundtopic](./IMAGES/17.outbound_topic_bindings.png)
 
 9. Click on save.
-
 10.Download the metadata in the json format. 
 
 ![metadata](./IMAGES/18.asyncapi.json.png)
@@ -482,7 +480,6 @@ Click **Next** to proceed.
 ![consumption model](./IMAGES/24.Gen_evenr_consumption_model.png)
 
 ---
-
 
 </details>
 
@@ -617,7 +614,7 @@ Inside of the `handle_event` method, you have access to the typed event object t
   
    - **`event UpdateUI for side effects;`**
 
- 3. When UpdateUI event is raised, refresh membership record, related tiers, and specifically Tierstatus field
+3. When UpdateUI event is raised, refresh membership record, related tiers, and specifically Tierstatus field
    - **`  side effects
   {
       event UpdateUI affects entity _MembershipTiers, $self, field _MembershipTiers.Tierstatus;
@@ -800,7 +797,7 @@ To create a new **communication scenario** for the Event Consumption Model, foll
 
 > The Inbound Service ID is the name of the Event Consumption Model (without version) + suffix `_EEEC`.  
 > For example:  
-> - If the model name is `ZSOLYLMGT 0001`, the inbound service ID will be `ZSOLYLMGT_EEEC`.
+> If the model name is `ZSOLYLMGT 0001`, the inbound service ID will be `ZSOLYLMGT_EEEC`.
 
 </details>
 
@@ -1038,7 +1035,7 @@ Complete and **Save** the **Communication Arrangement**.
 
 ![subscriptions](./IMAGES/31.subscription.png)
 
- 4. Ensure the **Status** is **Acknowledged**.
+4. Ensure the **Status** is **Acknowledged**.
 
 ![subscriptions](./IMAGES/32.subscription_check.png)
 
