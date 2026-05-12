@@ -76,17 +76,19 @@ The Loyalty Program Business Object allows you to maintain the Loyalty Program M
 
 To create an ABAP package:
 
-1. Choose `ZLOYALTY_MGMT > New ABAP Package`.
-2. Enter the following data:
+1. .Create a Software Component `ZLOYALTY_MGMT`.
+For more details - https://help.sap.com/docs/SAP_S4HANA_CLOUD/6aa39f1ac05441e5a23f484f31e477e7/67e2f2e1fbcf48a4801bad004133e0a7.html
+2. Choose `ZLOYALTY_MGMT > New ABAP Package`.
+3. Enter the following data:
    - **Name**: `ZLOYALTY_MGMT`
    - **Description**: `Loyalty Management Application`
-3. Select **Add to favorite packages**.
-4. In the **Package Type** field, select `Development`.
-5. Choose **Next**.
-6. On the ABAP package screen, enter the following data:
+4. Select **Add to favorite packages**.
+5. In the **Package Type** field, select `Development`.
+6. Choose **Next**.
+7. On the ABAP package screen, enter the following data:
    - **Software Component**: `ZLOYALTYMGMT`
-7. Create a new request and add a description.
-8. Choose **Finish**.
+8. Create a new request and add a description.
+9. Choose **Finish**.
    
 </details>
 
@@ -272,7 +274,7 @@ define table zlymgt_membship {
 
  7. In the **Behavior** section under the **Business Object** menu, enter:  
      **Behavior Implementation Class**: `ZLYMGT_BP_R_MEMBERSHIP`  
-     **Draft Table Name**: `ZLYMGT_MEMBSHIP_D`.
+     **Draft Table Name**: `ZLYMGT_MEMBSHP_D`.
 
     ![Behaviour of Business Object](./IMAGES/7.Behavior%20Configure%20Generator.png)
 
