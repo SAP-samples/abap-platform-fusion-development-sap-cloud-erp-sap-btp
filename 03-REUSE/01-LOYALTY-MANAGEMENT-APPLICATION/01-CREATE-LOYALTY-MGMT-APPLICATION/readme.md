@@ -352,7 +352,7 @@ define table zlymgt_membship {
   
   <summary>🔽 Click to expand! </summary>
 
-1. Right-click the package `ZLOYALTY_MGMT` and choose **New Other ABAP Repository Object**.
+1. Right-click the package `ZLOYALTY_MGMT` and choose **New** > **Other ABAP Repository Object**.
 2. Search for **Data Element**, select it, and choose **Next**.
 3. Enter the following data:  
    - **Name**: `ZLYMGT_TRANSACTIONDATE`  
@@ -1404,6 +1404,8 @@ on $projection.Membershipuuid = _LoyaltyMembership.Membershipuuid
 ```
 
 </details>
+
+---
 
 ### 3.3.5 **Create a CDS Projection View for Loyalty Mangement Transaction Details**
  
