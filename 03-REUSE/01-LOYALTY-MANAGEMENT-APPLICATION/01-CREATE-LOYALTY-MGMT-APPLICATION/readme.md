@@ -76,8 +76,8 @@ The Loyalty Program Business Object allows you to maintain the Loyalty Program M
 
 To create an ABAP package:
 
-1. .Create a Software Component `ZLOYALTY_MGMT`.
-For more details - https://help.sap.com/docs/SAP_S4HANA_CLOUD/6aa39f1ac05441e5a23f484f31e477e7/67e2f2e1fbcf48a4801bad004133e0a7.html
+1. Create a Software Component `ZLOYALTY_MGMT`.
+For more details : https://help.sap.com/docs/SAP_S4HANA_CLOUD/6aa39f1ac05441e5a23f484f31e477e7/67e2f2e1fbcf48a4801bad004133e0a7.html
 2. Choose `ZLOYALTY_MGMT > New ABAP Package`.
 3. Enter the following data:
    - **Name**: `ZLOYALTY_MGMT`
@@ -570,54 +570,6 @@ define view entity ZLYMGT_R_TRANSACTION as select from zlymgt_transctns
 
 </details>
 
-#### 8. **Create a CDS Projection View for Loyalty Mangement Transaction Details**
- 
-<details>
-      <summary>🔽 Click to expand! </summary>
-
-1. Right-click the package `ZLOYALTY_MGMT` and choose **New Other ABAP Repository Object**.
-2. Search for **Data Definition**, select it, and choose **Next**.
-3. Enter the following data:  
-   - **Name**: `ZLYMGT_C_TRANSACTION  `  
-   - **Description**: *Transaction Consumption view*  
-   - **Referenced Object**: `ZLYMGT_R_TRANSACTION`  
-4. Choose **Next**.
-5. Select a transport request and choose **Finish**.
-6. Replace the generated code with the following ABAP code:
-
-```abap
-@AccessControl.authorizationCheck: #NOT_REQUIRED
-@EndUserText.label: 'Transaction Consumption view'
-@Metadata.allowExtensions: true
-define view entity ZLYMGT_C_TRANSACTION as projection on ZLYMGT_R_TRANSACTION
-{
-  key Transactionuuid,
-  Membershipuuid,
-  Transactiondate,
-  Transactionvalue,
-  @Consumption.valueHelpDefinition: [ {
-      entity: {
-      name: 'I_Currency',
-      element: 'Currency'
-      },
-      useForValidation: true
-      } ]
-  Transactioncurrency,
-  Loyaltypoints,
-  Salesorderid,
-  Createdby,
-  Createdat,
-  Lastchangedby,
-  Locallastchangedat,
-  Lastchangedat
-}
-
-
-```
-7. Save and Activate.
-   
-</details>
-
 ---
 
 ### 3.1.4 Creating CDS View for Membership Tier
@@ -810,48 +762,6 @@ define view entity ZLYMGT_R_MEMBERSHIPTIER as select from zlymgt_memsptier
 
    - Save and Activate.
 
-</details>
-
-8. **Create a CDS Projection View for Loyalty Program Tier Details**
- 
-<details>
-      <summary>🔽 Click to expand! </summary>
-
-1. Right-click the package `ZLOYALTY_MGMT` and choose **New Other ABAP Repository Object**.
-2. Search for **Data Definition**, select it, and choose **Next**.
-3. Enter the following data:  
-   - **Name**: `ZLYMGT_C_MEMBERSHIPTIER `  
-   - **Description**: *Membership Tier Consumption View*  
-   - **Referenced Object**: `ZLYMGT_R_MEMBERSHIPTIER`  
-4. Choose **Next**.
-5. Select a transport request and choose **Finish**.
-6. Replace the generated code with the following ABAP code:
-
-```abap
-@AccessControl.authorizationCheck: #NOT_REQUIRED
-@EndUserText.label: 'Membership Tier Consumption View'
-@Metadata.ignorePropagatedAnnotations: true
-@Metadata.allowExtensions: true
-define view entity ZLYMGT_C_MEMBERSHIPTIER  
-  as projection on ZLYMGT_R_MEMBERSHIPTIER
-{
-  key Tieruuid,
-  Membershipuuid,
-   @UI.textArrangement: #TEXT_LAST
-      @ObjectModel.text.element: ['Tierdescription']
-  Tierid,
-  Conversionfactor,
-  Createdby,
-  Createdat,
-  Lastchangedby,
-  Locallastchangedat,
-  Lastchangedat,
- 
-}
-
-```
-7. Save and Activate.
-   
 </details>
 
 ---
@@ -1493,11 +1403,103 @@ on $projection.Membershipuuid = _LoyaltyMembership.Membershipuuid
 
 ```
 
-5. Save the code and and choose **Activate all** to activate all the 7 CDS views before proceeding to the next steps.
-
 </details>
 
-### 3.3.5 Establish composition in ZLYMGT_I_MEMBERSHIP by creating CDS Interface View.
+### 3.3.5 **Create a CDS Projection View for Loyalty Mangement Transaction Details**
+ 
+<details>
+      <summary>🔽 Click to expand! </summary>
+
+1. Right-click the package `ZLOYALTY_MGMT` and choose **New Other ABAP Repository Object**.
+2. Search for **Data Definition**, select it, and choose **Next**.
+3. Enter the following data:  
+   - **Name**: `ZLYMGT_C_TRANSACTION  `  
+   - **Description**: *Transaction Consumption view*  
+   - **Referenced Object**: `ZLYMGT_R_TRANSACTION`  
+4. Choose **Next**.
+5. Select a transport request and choose **Finish**.
+6. Replace the generated code with the following ABAP code:
+
+```abap
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'Transaction Consumption view'
+@Metadata.allowExtensions: true
+define view entity ZLYMGT_C_TRANSACTION as projection on ZLYMGT_R_TRANSACTION
+{
+  key Transactionuuid,
+  Membershipuuid,
+  Transactiondate,
+  Transactionvalue,
+  @Consumption.valueHelpDefinition: [ {
+      entity: {
+      name: 'I_Currency',
+      element: 'Currency'
+      },
+      useForValidation: true
+      } ]
+  Transactioncurrency,
+  Loyaltypoints,
+  Salesorderid,
+  Createdby,
+  Createdat,
+  Lastchangedby,
+  Locallastchangedat,
+  Lastchangedat
+}
+
+
+```
+7. Save and Activate.
+   
+</details>
+
+---
+
+### 3.3.6 **Create a CDS Projection View for Loyalty Program Tier Details**
+ 
+<details>
+      <summary>🔽 Click to expand! </summary>
+
+1. Right-click the package `ZLOYALTY_MGMT` and choose **New Other ABAP Repository Object**.
+2. Search for **Data Definition**, select it, and choose **Next**.
+3. Enter the following data:  
+   - **Name**: `ZLYMGT_C_MEMBERSHIPTIER `  
+   - **Description**: *Membership Tier Consumption View*  
+   - **Referenced Object**: `ZLYMGT_R_MEMBERSHIPTIER`  
+4. Choose **Next**.
+5. Select a transport request and choose **Finish**.
+6. Replace the generated code with the following ABAP code:
+
+```abap
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'Membership Tier Consumption View'
+@Metadata.ignorePropagatedAnnotations: true
+@Metadata.allowExtensions: true
+define view entity ZLYMGT_C_MEMBERSHIPTIER  
+  as projection on ZLYMGT_R_MEMBERSHIPTIER
+{
+  key Tieruuid,
+  Membershipuuid,
+   @UI.textArrangement: #TEXT_LAST
+      @ObjectModel.text.element: ['Tierdescription']
+  Tierid,
+  Conversionfactor,
+  Createdby,
+  Createdat,
+  Lastchangedby,
+  Locallastchangedat,
+  Lastchangedat,
+ 
+}
+
+```
+7. Save and Activate.
+   
+</details>
+
+---
+
+### 3.3.7 Establish composition in ZLYMGT_I_MEMBERSHIP by creating CDS Interface View.
 
 <details>
   
@@ -1543,7 +1545,7 @@ define root view entity ZLYMGT_I_MEMBERSHIP
 
 ---
 
-### 3.3.6 Establish composition in ZLYMGT_I_MEMBERSHIPTIER by creating CDS Interface View.
+### 3.3.8 Establish composition in ZLYMGT_I_MEMBERSHIPTIER by creating CDS Interface View.
 
 <details>
   
@@ -1588,7 +1590,8 @@ as projection on ZLYMGT_R_MEMBERSHIPTIER
 </details>
 
 ---
-### 3.3.7 Establish composition in ZLYMGT_I_TRANSACTION by creating CDS Interface View.
+
+### 3.3.9 Establish composition in ZLYMGT_I_TRANSACTION by creating CDS Interface View.
 
 <details>
   
@@ -1629,7 +1632,7 @@ as projection on ZLYMGT_R_TRANSACTION
 
 ```
 
-7. Save the code and and choose **Activate all** to activate all the 7 CDS views.
+7. Save the code and and choose **Activate all** to activate all the 9 CDS views.
 
 </details>
 
