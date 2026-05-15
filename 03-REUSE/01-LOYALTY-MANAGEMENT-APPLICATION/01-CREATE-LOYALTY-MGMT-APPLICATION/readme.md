@@ -972,6 +972,8 @@ After generation, you can perform the following adjustments and configurations:
    ```abap
    @AccessControl.authorizationCheck: #NOT_ALLOWED
 
+   ```
+
 
 ### Use the Custom Business Configurations App  
 
@@ -1284,7 +1286,7 @@ define root view entity ZLYMGT_R_MEMBERSHIP
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: 'Membership Tier View'
 define view entity ZLYMGT_R_MEMBERSHIPTIER as select from zlymgt_memsptier
-association   to parent ZLYMGT_R_MEMBERSHP as _LoyaltyMembership on $projection.Membershipuuid = _LoyaltyMembership.Membershipuuid
+association   to parent ZLYMGT_R_MEMBERSHIP as _LoyaltyMembership on $projection.Membershipuuid = _LoyaltyMembership.Membershipuuid
  association [1..1] to    ZLYMGT_I_TIERCOD                   as _TierConfig                 on $projection.Tierid = _TierConfig.Tierid
 //this association is used in cview for tier status text
  association [1..1] to ZLYMGT_VH_TIERSTATUSTEXT as _TierStatusText on $projection.Tierstatus = _TierStatusText.Tierstatus
@@ -2008,7 +2010,7 @@ managed implementation in class ZCL_LYMGT_R_MEMBERSHIP unique;
 strict ( 2 );
 with draft;
 extensible;
-define behavior for ZLYMGT_R_MEMBERSHP alias ZlymgtRMembership
+define behavior for ZLYMGT_R_MEMBERSHIP alias ZlymgtRMembership
 persistent table ZLYMGT_MEMBSHIP
 extensible
 draft table ZLYMGT_MEMBSHP_D
@@ -2119,7 +2121,7 @@ CLASS LHC_ZLYMGT_R_MEMBERSHIP IMPLEMENTATION.
    DATA membershipid_max TYPE zlymgt_membershipid.
     "---CHECK IF A MEMBERSHIP ID IS ALREADY ASSIGNED---
     " Read memberships
-    READ ENTITIES OF zlymgt_r_membershp IN LOCAL MODE
+    READ ENTITIES OF zlymgt_r_membership IN LOCAL MODE
          ENTITY ZlymgtRMembership
          FIELDS ( Membershipuuid  Membershipid )
          WITH CORRESPONDING #( keys )
@@ -2146,7 +2148,7 @@ CLASS LHC_ZLYMGT_R_MEMBERSHIP IMPLEMENTATION.
     ENDTRY.
 
     " Update memberships with sequential ID
-    MODIFY ENTITIES OF zlymgt_r_membershp IN LOCAL MODE
+    MODIFY ENTITIES OF zlymgt_r_membership IN LOCAL MODE
            ENTITY ZlymgtRMembership
            UPDATE FIELDS ( Membershipid )
            WITH VALUE #(
