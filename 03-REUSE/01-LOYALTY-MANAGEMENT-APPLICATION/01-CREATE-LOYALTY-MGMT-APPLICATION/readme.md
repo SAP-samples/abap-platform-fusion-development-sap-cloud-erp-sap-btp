@@ -1680,14 +1680,14 @@ annotate entity ZLYMGT_C_MEMBERSHIP with
       label: 'Transactions',
       type: #LINEITEM_REFERENCE,
       position: 20,
-      targetElement: '_MembershipTransactions'
+      targetElement: '_BaseEntity._MembershipTransactions'
    },
    {
       id: 'Tiers',
       label: 'Tiers',
       type: #LINEITEM_REFERENCE,
       position: 30,
-      targetElement: '_MembershipTiers'
+      targetElement: '_BaseEntity._MembershipTiers'
    }
    ]
 
@@ -1697,12 +1697,14 @@ annotate entity ZLYMGT_C_MEMBERSHIP with
   @UI: {  identification  : [ { position: 10, label: 'Membership ID' } ,
      { type: #FOR_ACTION,  dataAction: 'UpgradeTier' , label: 'Request Tier Upgrade' , position: 60 , targetElement: 'Membershipuuid'}] ,
           lineItem        : [ { position: 10, label: 'Membership ID' }] 
+//          selectionField : [ { position: 10 } ]
        }
 
   Membershipid;
 
   @UI: {  identification  : [ { position: 20, label: 'Customer ID' } ],
         lineItem        : [ { position: 20, label: 'Customer ID' } ]
+//        selectionField : [ { position: 20 } ]
      }
 
   Customer;
@@ -1754,13 +1756,12 @@ annotate entity ZLYMGT_C_MEMBERSHIP with
 
 
 ```abap
-
 @Metadata.layer: #CORE
 @UI: {
   headerInfo: { typeName: 'Loyalty Membership Tier',
                 typeNamePlural: 'Loyalty Membership Tiers',
-                title: { type: #STANDARD, label: 'Loyalty Membership Tiers', value: 'TierId' } },
-  presentationVariant: [{ sortOrder: [{ by: 'Tierstatus', direction:  #ASC }] }] }
+                title: { type: #STANDARD, label: 'Loyalty Membership Tiers', value: 'Tierid' } },
+  presentationVariant: [{ sortOrder: [{ by: 'Tierid', direction:  #ASC }] }] }
 annotate entity ZLYMGT_C_MEMBERSHIPTIER with
 {
   @UI.facet: [
@@ -1783,9 +1784,9 @@ annotate entity ZLYMGT_C_MEMBERSHIPTIER with
          fieldGroup: [{ position: 10, label: 'Tier ID', qualifier: 'LoyaltyMembershipTiers' } ]
 
        }
-  @Consumption.valueHelpDefinition: [{ entity: { name: 'ZLYMGT_VH_TIERCONFIG', element: 'Tierid' },
-                                       additionalBinding: [{ localElement: 'Tierstatus', element: 'Tierstatus', usage: #RESULT },{ localElement: 'Conversionfactor', element: 'Conversionfactor', usage: #RESULT }],
-                                       label: 'Loyalty Membership Tier' }]
+//  @Consumption.valueHelpDefinition: [{ entity: { name: 'ZLYMGT_VH_TIERCONFIG', element: 'Tierid' },
+//                                       additionalBinding: [{ localElement: 'Tierstatus', element: 'Tierstatus', usage: #RESULT },{ localElement: 'Conversionfactor', element: 'Conversionfactor', usage: #RESULT }],
+//                                       label: 'Loyalty Membership Tier' }]
   Tierid;
 
   @UI: {
@@ -1819,6 +1820,7 @@ annotate entity ZLYMGT_C_MEMBERSHIPTIER with
 
 
 }
+
 
 ```
 
