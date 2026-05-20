@@ -1285,27 +1285,35 @@ define root view entity ZLYMGT_R_MEMBERSHIP
 
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: 'Membership Tier View'
-define view entity ZLYMGT_R_MEMBERSHIPTIER as select from zlymgt_memsptier
-association   to parent ZLYMGT_R_MEMBERSHIP as _LoyaltyMembership on $projection.Membershipuuid = _LoyaltyMembership.Membershipuuid
- association [1..1] to    ZLYMGT_I_TIERCOD                   as _TierConfig                 on $projection.Tierid = _TierConfig.Tierid
-//this association is used in cview for tier status text
- association [1..1] to ZLYMGT_VH_TIERSTATUSTEXT as _TierStatusText on $projection.Tierstatus = _TierStatusText.Tierstatus
+define view entity ZLYMGT_R_MEMBERSHIPTIER
+  as select from zlymgt_memsptier
+  association        to parent ZLYMGT_R_MEMBERSHP as _LoyaltyMembership on $projection.Membershipuuid = _LoyaltyMembership.Membershipuuid
+  association [1..1] to ZLYMGT_I_TIERCOD          as _TierConfig        on $projection.Tierid = _TierConfig.Tierid
+  //this association is used in cview for tier status text
+  association [1..1] to ZLYMGT_VH_TIERSTATUSTEXT  as _TierStatusText    on $projection.Tierstatus = _TierStatusText.Tierstatus
+  
+  association [1..1] to ZLYMGT_I_TIERCOD as _config on $projection.Tierid = _config.Tierid
 {
-  key tieruuid as Tieruuid,
-  membershipuuid as Membershipuuid,
-  tierid as Tierid,
-  tierstatus as Tierstatus,
-  conversionfactor as Conversionfactor,
-  createdby as Createdby,
-  createdat as Createdat,
-  lastchangedby as Lastchangedby,
-  locallastchangedat as Locallastchangedat,
-  lastchangedat as Lastchangedat,
-  _LoyaltyMembership,
-  _TierConfig,
-  _TierStatusText
+  key tieruuid           as Tieruuid,
+      membershipuuid     as Membershipuuid,
+    
+      tierid             as Tierid,
+      @ObjectModel.text.association: '_TierStatusText'
+      tierstatus         as Tierstatus,
+      conversionfactor   as Conversionfactor,
+      createdby          as Createdby,
+      createdat          as Createdat,
+      lastchangedby      as Lastchangedby,
+      locallastchangedat as Locallastchangedat,
+      lastchangedat      as Lastchangedat,
+
+      _LoyaltyMembership,
+      _TierConfig,
+      _TierStatusText,
+      _config
 
 }
+
 
 ```
 
@@ -1448,9 +1456,9 @@ define view entity ZLYMGT_C_TRANSACTION as projection on ZLYMGT_R_TRANSACTION
   Createdat,
   Lastchangedby,
   Locallastchangedat,
-  Lastchangedat
+  Lastchangedat,
+  _LoyaltyMembership : redirected to parent ZLYMGT_C_MEMBERSHIP
 }
-
 
 ```
 7. Save and Activate.
@@ -1475,26 +1483,33 @@ define view entity ZLYMGT_C_TRANSACTION as projection on ZLYMGT_R_TRANSACTION
 6. Replace the generated code with the following ABAP code:
 
 ```abap
-@AccessControl.authorizationCheck: #NOT_REQUIRED
+@AccessControl.authorizationCheck: #NOT_ALLOWED
 @EndUserText.label: 'Membership Tier Consumption View'
 @Metadata.ignorePropagatedAnnotations: true
 @Metadata.allowExtensions: true
-define view entity ZLYMGT_C_MEMBERSHIPTIER  
+define view entity ZLYMGT_C_MEMBERSHIPTIER
   as projection on ZLYMGT_R_MEMBERSHIPTIER
 {
   key Tieruuid,
-  Membershipuuid,
-   @UI.textArrangement: #TEXT_LAST
-      @ObjectModel.text.element: ['Tierdescription']
-  Tierid,
-  Conversionfactor,
-  Createdby,
-  Createdat,
-  Lastchangedby,
-  Locallastchangedat,
-  Lastchangedat,
- 
+      Membershipuuid,
+      @ObjectModel.text.element: ['Tiertext']
+      @UI.textArrangement: #TEXT_SEPARATE
+      Tierid,
+      @UI.textArrangement: #TEXT_ONLY
+      @ObjectModel.text.element: ['TierStatusText']
+      Tierstatus,
+      Conversionfactor,
+      Createdby,
+      Createdat,
+      Lastchangedby,
+      Locallastchangedat,
+      Lastchangedat,
+      _LoyaltyMembership : redirected to parent ZLYMGT_C_MEMBERSHIP,
+      _TierStatusText[ language = $session.system_language ].text as TierStatusText,
+      _config.Tierdescription                                         as TierText
+
 }
+
 
 ```
 7. Save and Activate.
@@ -1503,7 +1518,74 @@ define view entity ZLYMGT_C_MEMBERSHIPTIER
 
 ---
 
-### 3.3.7 Establish composition in ZLYMGT_I_MEMBERSHIP by creating CDS Interface View.
+### 3.3.7 Establish composition in ZLYMGT_C_MEMBERSHIP
+
+<details>
+  
+  <summary>🔽 Click to expand! </summary>
+
+1. Choose **Open ABAP Development Object**.
+2. Enter the CDS view name: `ZLYMGT_C_MEMBERSHIP`.
+3. Select the CDS view and choose **OK**.
+4. Replace the existing code with the following:
+
+```abap
+@Metadata.allowExtensions: true
+@Metadata.ignorePropagatedAnnotations: true
+@EndUserText: {
+  label: '###GENERATED Core Data Service Entity'
+}
+@ObjectModel: {
+  sapObjectNodeType.name: 'ZLYMGT_MEMBSHIP'
+}
+@AccessControl.authorizationCheck: #NOT_ALLOWED
+define root view entity ZLYMGT_C_MEMBERSHIP
+  provider contract transactional_query
+  as projection on ZLYMGT_R_MEMBERSHP
+  association [1..1] to ZLYMGT_R_MEMBERSHP as _BaseEntity on $projection.Membershipuuid = _BaseEntity.Membershipuuid
+{
+  key Membershipuuid,
+  Membershipid,
+  Customer,
+  Customername,
+  Sourcesystemid,
+  @Semantics: {
+    user.createdBy: true
+  }
+  Createdby,
+  @Semantics: {
+    systemDateTime.createdAt: true
+  }
+  Createdat,
+  @Semantics: {
+    user.localInstanceLastChangedBy: true
+  }
+  Lastchangedby,
+  @Semantics: {
+    systemDateTime.localInstanceLastChangedAt: true
+  }
+  Locallastchangedat,
+  @Semantics: {
+    systemDateTime.lastChangedAt: true
+  }
+  Lastchangedat,
+  _BaseEntity,
+  _MembershipTransactions  : redirected to composition child ZLYMGT_C_TRANSACTION,
+   _MembershipTiers  : redirected to composition child ZLYMGT_C_MEMBERSHIPTIER
+}
+
+
+
+```
+
+
+5. Save the code, but **don’t activate** it yet.
+
+</details>
+
+
+
+### 3.3.8 Establish composition in ZLYMGT_I_MEMBERSHIP by creating CDS Interface View.
 
 <details>
   
@@ -1549,7 +1631,7 @@ define root view entity ZLYMGT_I_MEMBERSHIP
 
 ---
 
-### 3.3.8 Establish composition in ZLYMGT_I_MEMBERSHIPTIER by creating CDS Interface View.
+### 3.3.9 Establish composition in ZLYMGT_I_MEMBERSHIPTIER by creating CDS Interface View.
 
 <details>
   
@@ -1595,7 +1677,7 @@ as projection on ZLYMGT_R_MEMBERSHIPTIER
 
 ---
 
-### 3.3.9 Establish composition in ZLYMGT_I_TRANSACTION by creating CDS Interface View.
+### 3.3.10 Establish composition in ZLYMGT_I_TRANSACTION by creating CDS Interface View.
 
 <details>
   
@@ -1784,10 +1866,16 @@ annotate entity ZLYMGT_C_MEMBERSHIPTIER with
          fieldGroup: [{ position: 10, label: 'Tier ID', qualifier: 'LoyaltyMembershipTiers' } ]
 
        }
-//  @Consumption.valueHelpDefinition: [{ entity: { name: 'ZLYMGT_VH_TIERCONFIG', element: 'Tierid' },
-//                                       additionalBinding: [{ localElement: 'Tierstatus', element: 'Tierstatus', usage: #RESULT },{ localElement: 'Conversionfactor', element: 'Conversionfactor', usage: #RESULT }],
-//                                       label: 'Loyalty Membership Tier' }]
   Tierid;
+
+  @UI: {
+         identification   : [ { position: 11, importance: #MEDIUM, label: 'Tier Description'  } ],
+         lineItem         : [ { position: 11, importance: #MEDIUM, label: 'Tier Description'  } ],
+         fieldGroup: [{ position: 11, label: 'Tier Description', qualifier: 'LoyaltyMembershipTiers' } ]
+
+       }
+
+  TierText;
 
   @UI: {
          identification   : [ { position: 30, importance: #MEDIUM, label: 'Tier Status'  } ],
@@ -1806,7 +1894,7 @@ annotate entity ZLYMGT_C_MEMBERSHIPTIER with
         fieldGroup: [{ position: 30, label: 'Conversion Factor', qualifier: 'LoyaltyMembershipTiers' }]
       }
   Conversionfactor;
-  
+
   @UI.hidden: true
   Createdat;
   @UI.hidden: true
@@ -1817,10 +1905,11 @@ annotate entity ZLYMGT_C_MEMBERSHIPTIER with
   Locallastchangedat;
   @UI.hidden: true
   Lastchangedby;
+  @UI.hidden: true
+  TierStatusText;
 
 
 }
-
 
 ```
 
