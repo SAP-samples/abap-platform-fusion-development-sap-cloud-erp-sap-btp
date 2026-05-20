@@ -306,5 +306,7 @@ The newly created **Gift Card Scenario (`ZBR_XE4_GIFTCARD`)** business role prov
     - A price element of the **DRV1** condition type is created, with the gift card amount deducted from the net value of the sales order.
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+<!-----
 ➡️ [Build Loyalty Application with Steampunk](../../../03-REUSE/01-LOYALTY-MANAGEMENT-APPLICATION/01-CREATE-LOYALTY-MGMT-APPLICATION)
+
+--->
