@@ -108,6 +108,32 @@ METHOD UpgradeTier.
 ```
 
 6. Activate the changes.
+7. Navigate to **ZLYMGT_C_MEMBERSHIP**.Expose the action **UpgradeTier**.Replace the code with the following code.
+
+```abap
+projection implementation in class ZLYMGT_BP_C_MEMBERSHIP unique;
+strict ( 2 );
+extensible;
+use draft;
+use side effects;
+define behavior for ZLYMGT_C_MEMBERSHIP alias ZlymgtCMembership
+extensible
+use etag
+{
+  use create;
+  use update;
+  use delete;
+  use event UpdateUI;
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+  use action Prepare;
+  use action UpgradeTier;
+
+}
+
+```
    
 The UpgradeTier method is responsible for upgrading a loyalty member to the next eligible tier. It performs the following steps:
 
