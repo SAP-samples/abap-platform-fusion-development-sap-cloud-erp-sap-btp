@@ -50,7 +50,7 @@ Explore extensibility, integration, and reuse scenarios in **SAP S/4HANA Private
 
 > 📘 Implementation: [☁️ SAP S/4HANA Private Cloud](./sap-s4hana-private-cloud.md)
 
------>
+------>
 
 ## 🧠 Key Topics in the Fusion Story
 
