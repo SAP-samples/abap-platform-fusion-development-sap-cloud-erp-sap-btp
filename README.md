@@ -1,4 +1,5 @@
 # 🌟 Fusion Development with SAP Cloud ERP and SAP Business Technology Platform
+[![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/abap-platform-fusion-development-sap-cloud-erp-sap-btp)](https://api.reuse.software/info/github.com/SAP-samples/abap-platform-fusion-development-sap-cloud-erp-sap-btp)
 
 > Fusion Development brings together SAP Cloud ERP with SAP Business Technology Platform (SAP BTP) for seamless innovation.
 
